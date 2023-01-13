@@ -7,7 +7,8 @@ from selenium_img import get_img
 from flask import jsonify
 from elevenst import elevenst_get_info
 
-DRIVER_PATH = "/chromedriver"
+DRIVER_PATH = "/usr/src/chrome/chromedriver"
+print(DRIVER_PATH)
 options = Options()
 options = webdriver.ChromeOptions()
 options.headless = True
@@ -16,18 +17,18 @@ options.add_argument('User-Agent=Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like 
 options.add_argument('Accept-Language=ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7')
 options.add_argument("lang=ko_KR")
 options.add_argument('--disable-blink-features=AutomationControlled')
-mobile_emulation = { "deviceName": "iPhone X" }
+mobile_emulation = {"deviceName": "iPhone X"}
 options.add_experimental_option("mobileEmulation", mobile_emulation)
-browser = webdriver.Chrome(options = options, executable_path=DRIVER_PATH)
+browser = webdriver.Chrome(options=options, executable_path=DRIVER_PATH)
 
 
-def web_scrap(url): 
-    if (url.find("musinsaapp") != -1): # 무신사 앱링크면
+def web_scrap(url):
+    if (url.find("musinsaapp") != -1):  # 무신사 앱링크면
         url += "?_imcp=1"
     browser.get(url)
-    if (url.find("11st.co.kr") != -1): # 11번가
+    if (url.find("11st.co.kr") != -1):  # 11번가
         return elevenst_get_info(browser)
-    else: 
+    else:
         title = get_title(browser, url)
         price = get_price(browser)
         img = get_img(browser, url)
